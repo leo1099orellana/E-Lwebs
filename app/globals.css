@@ -4,14 +4,14 @@
 :root,
 [data-theme="tech"] {
   --bg: #060810;
-  --bg-surface: rgba(6, 8, 16, 0.94);
-  --bg-surface-hover: rgba(10, 15, 30, 0.97);
-  --border: rgba(47, 219, 160, 0.11);
-  --border-accent: rgba(47, 219, 160, 0.30);
+  --bg-surface: rgb(10, 13, 24);
+  --bg-surface-hover: rgb(14, 18, 32);
+  --border: rgba(47, 219, 160, 0.20);
+  --border-accent: rgba(47, 219, 160, 0.40);
 
   --text: #e2f4ee;
-  --text-muted: rgba(148, 200, 178, 0.72);
-  --text-subtle: rgba(90, 160, 132, 0.52);
+  --text-muted: rgba(148, 200, 178, 0.90);
+  --text-subtle: rgba(90, 160, 132, 0.68);
 
   --accent: #2fdba0;
   --accent-2: #5aadda;
@@ -23,14 +23,14 @@
 /* Ocean â€” deep navy with cobalt blue */
 [data-theme="ocean"] {
   --bg: #04080f;
-  --bg-surface: rgba(4, 8, 18, 0.94);
-  --bg-surface-hover: rgba(8, 15, 35, 0.97);
-  --border: rgba(77, 124, 254, 0.12);
-  --border-accent: rgba(77, 124, 254, 0.32);
+  --bg-surface: rgb(7, 12, 26);
+  --bg-surface-hover: rgb(11, 18, 40);
+  --border: rgba(77, 124, 254, 0.22);
+  --border-accent: rgba(77, 124, 254, 0.42);
 
   --text: #dce8ff;
-  --text-muted: rgba(160, 185, 255, 0.72);
-  --text-subtle: rgba(100, 130, 220, 0.52);
+  --text-muted: rgba(160, 185, 255, 0.90);
+  --text-subtle: rgba(100, 130, 220, 0.68);
 
   --accent: #4d7cfe;
   --accent-2: #818cf8;
@@ -42,14 +42,14 @@
 /* Dusk â€” warm dark with amber accent */
 [data-theme="dusk"] {
   --bg: #080602;
-  --bg-surface: rgba(9, 7, 2, 0.94);
-  --bg-surface-hover: rgba(16, 12, 5, 0.97);
-  --border: rgba(251, 191, 36, 0.11);
-  --border-accent: rgba(251, 191, 36, 0.26);
+  --bg-surface: rgb(15, 12, 5);
+  --bg-surface-hover: rgb(22, 17, 7);
+  --border: rgba(251, 191, 36, 0.22);
+  --border-accent: rgba(251, 191, 36, 0.38);
 
   --text: #fbf4dc;
-  --text-muted: rgba(225, 188, 112, 0.72);
-  --text-subtle: rgba(175, 135, 60, 0.52);
+  --text-muted: rgba(225, 188, 112, 0.90);
+  --text-subtle: rgba(175, 135, 60, 0.68);
 
   --accent: #fbbf24;
   --accent-2: #f97316;
@@ -1189,8 +1189,11 @@ h1, h2, h3, h4, h5, h6 {
 /* =========================================================
    FAQ component
    ========================================================= */
+.faq-card {
+  background: var(--bg-surface) !important;
+}
 .faq-card:hover {
-  border-color: rgba(255, 255, 255, 0.15) !important;
+  border-color: rgba(255, 255, 255, 0.22) !important;
   transform: translateY(-2px);
 }
 

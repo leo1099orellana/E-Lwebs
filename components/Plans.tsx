@@ -51,8 +51,9 @@ export function Plans() {
                 borderRadius: "var(--radius-xl)",
                 border: `1px solid ${plan.highlighted ? "var(--border-accent)" : "var(--border)"}`,
                 background: plan.highlighted
-                  ? "linear-gradient(160deg, var(--accent-soft) 0%, var(--bg-surface) 100%)"
+                  ? "linear-gradient(160deg, var(--accent-soft) 0%, var(--bg-surface-hover) 100%)"
                   : "var(--bg-surface)",
+                backdropFilter: "none",
                 padding: "2rem",
                 position: "relative",
                 display: "flex",
