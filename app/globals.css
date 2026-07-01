@@ -1008,9 +1008,9 @@ h1, h2, h3, h4, h5, h6 {
   animation-delay: 0.12s;
 }
 
-/* -- Touch -- */
+/* -- Touch: keep overlay hidden — screenshot must be visible, card has "Ver proyecto" btn -- */
 @media (hover: none) {
-  .pf-item-img-hover { opacity: 1; }
+  .pf-item-img-hover { opacity: 0; }
 }
 
 /* -- Responsive -- */
