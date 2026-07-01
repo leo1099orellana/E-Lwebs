@@ -1040,6 +1040,69 @@ h1, h2, h3, h4, h5, h6 {
   .pf-title { font-size: 1.35rem; }
   .pf-stat-val { font-size: 1.2rem; }
 }
+
+/* ── Mobile portfolio: automatic shimmer + pulse (no hover needed) ── */
+/* This block comes after the base responsive block so it wins
+   the cascade over display:none on ::before without !important.    */
+@media (max-width: 860px) {
+  /* Pulsing border glow — card breathes with accent light */
+  .pf-item-card {
+    border: 1px solid rgba(47, 219, 160, 0.25) !important;
+    border-top: none !important;
+    animation: pf-card-pulse-mobile 3s ease-in-out infinite;
+  }
+  .pf-item:nth-child(2) .pf-item-card {
+    animation-delay: -1.5s;
+  }
+
+  /* Full-height diagonal shimmer beam — sweeps left to right */
+  .pf-item-card::before {
+    display: block;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 48%;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.028) 28%,
+      rgba(47, 219, 160, 0.22) 50%,
+      rgba(255, 255, 255, 0.028) 72%,
+      transparent 100%
+    );
+    box-shadow: none;
+    border-radius: 0;
+    transform: skewX(-10deg);
+    animation: pf-shimmer-mobile 4s ease-in-out infinite both;
+  }
+  .pf-item:nth-child(2) .pf-item-card::before {
+    animation-delay: -2s;
+  }
+}
+
+@keyframes pf-card-pulse-mobile {
+  0%, 100% {
+    box-shadow:
+      0 10px 30px rgba(0, 0, 0, 0.4),
+      0 0  0  1px rgba(47, 219, 160, 0.22),
+      0 0 10px rgba(47, 219, 160, 0.06);
+  }
+  50% {
+    box-shadow:
+      0 14px 40px rgba(0, 0, 0, 0.55),
+      0 0  0  1px var(--accent),
+      0 0 28px rgba(47, 219, 160, 0.28),
+      0 0 55px rgba(47, 219, 160, 0.12);
+  }
+}
+
+@keyframes pf-shimmer-mobile {
+  0%        { transform: translateX(-150%) skewX(-10deg); opacity: 0; }
+  8%        { opacity: 1; }
+  62%       { opacity: 1; }
+  72%, 100% { transform: translateX(280%)  skewX(-10deg); opacity: 0; }
+}
+
 /* =========================================================
    Process â€” Timeline (desktop) + mobile grid
    ========================================================= */
