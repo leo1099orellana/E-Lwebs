@@ -409,8 +409,9 @@ export function CodeBackground() {
         background: "var(--bg)",
       }}
     >
-      {/* Subtle radial veil — gently protects center reading zone */}
+      {/* Radial veil (desktop) / horizontal column veil (mobile) */}
       <div
+        className="code-bg-veil"
         style={{
           position: "absolute",
           inset: 0,
