@@ -222,7 +222,6 @@ ol {
   padding: var(--section-pad);
   position: relative;
   z-index: 2;
-  background: var(--bg);
 }
 
 /* =========================================================
@@ -1014,32 +1013,75 @@ h1, h2, h3, h4, h5, h6 {
   .pf-item-img-hover { opacity: 1; }
 }
 
-/* -- Responsive -- */
+/* -- Responsive — mobile overlap layout -- */
 @media (max-width: 860px) {
-  .pf-items { gap: 2rem; }
-  .pf-item { padding-bottom: 0; }
-  .pf-item-img-wrap {
-    width: 100%;
-    height: 210px;
-    border-radius: 16px 16px 0 0;
-    margin-left: 0 !important;
+  .pf-items { gap: 1.75rem; }
+
+  /* Fixed-height container so image + card overlap cleanly */
+  .pf-item {
+    padding-bottom: 0;
+    height: 440px;
+    overflow: hidden;
+    border-radius: 18px;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55), 0 0 0 1px var(--border);
   }
-  .pf-item-img-veil { display: none; }
+
+  /* Image fills the entire item */
+  .pf-item-img-wrap {
+    position: absolute;
+    inset: 0;
+    width: 100% !important;
+    height: 100% !important;
+    border-radius: 18px;
+    margin-left: 0 !important;
+    box-shadow: none;
+  }
+
+  /* Hide "Ver sitio" pill — card already has "Ver proyecto" button */
+  .pf-item-img-hover { display: none !important; }
+
+  /* Bottom-to-top veil darkens where card overlaps */
+  .pf-item-img-veil {
+    display: block;
+    background: linear-gradient(
+      0deg,
+      rgba(0, 0, 0, 0.96) 0%,
+      rgba(0, 0, 0, 0.60) 32%,
+      rgba(0, 0, 0, 0.08) 58%,
+      transparent 78%
+    ) !important;
+  }
+  .pf-item--flip .pf-item-img-veil {
+    background: linear-gradient(
+      0deg,
+      rgba(0, 0, 0, 0.96) 0%,
+      rgba(0, 0, 0, 0.60) 32%,
+      rgba(0, 0, 0, 0.08) 58%,
+      transparent 78%
+    ) !important;
+  }
+
+  /* Card floats over the bottom of the image */
   .pf-item-card {
-    position: static;
-    width: 100%;
-    border-radius: 0 0 16px 16px;
-    border-top: none;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: auto;
+    border-radius: 0 0 18px 18px;
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
-    background: var(--bg-surface-hover);
-    padding: 1.4rem 1.5rem 1.6rem;
-    gap: 0.7rem;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    background: transparent;
+    border: none;
+    border-top: 1px solid var(--border-accent);
+    padding: 1.1rem 1.4rem 1.4rem;
+    gap: 0.6rem;
+    box-shadow: none;
   }
+  .pf-item--flip .pf-item-card { left: 0; right: 0; }
   .pf-item-card::before { display: none; }
-  .pf-title { font-size: 1.35rem; }
-  .pf-stat-val { font-size: 1.2rem; }
+  .pf-title { font-size: 1.3rem; }
+  .pf-stat-val { font-size: 1.15rem; }
 }
 /* =========================================================
    Process â€” Timeline (desktop) + mobile grid
