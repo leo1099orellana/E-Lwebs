@@ -222,6 +222,7 @@ ol {
   padding: var(--section-pad);
   position: relative;
   z-index: 2;
+  background: var(--bg);
 }
 
 /* =========================================================
