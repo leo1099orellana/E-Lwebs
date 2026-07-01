@@ -1039,6 +1039,12 @@ h1, h2, h3, h4, h5, h6 {
   .pf-item-card::before { display: none; }
   .pf-title { font-size: 1.35rem; }
   .pf-stat-val { font-size: 1.2rem; }
+  /* Show full description on mobile — card is full-width, no need to clamp */
+  .pf-desc {
+    display: block;
+    -webkit-line-clamp: unset;
+    overflow: visible;
+  }
 }
 
 /* ── Mobile portfolio: automatic shimmer + pulse (no hover needed) ── */
