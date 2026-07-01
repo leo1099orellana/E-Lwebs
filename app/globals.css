@@ -4,8 +4,8 @@
 :root,
 [data-theme="tech"] {
   --bg: #060810;
-  --bg-surface: rgba(10, 14, 26, 0.80);
-  --bg-surface-hover: rgba(18, 24, 44, 0.92);
+  --bg-surface: rgba(6, 8, 16, 0.94);
+  --bg-surface-hover: rgba(10, 15, 30, 0.97);
   --border: rgba(47, 219, 160, 0.11);
   --border-accent: rgba(47, 219, 160, 0.30);
 
@@ -23,8 +23,8 @@
 /* Ocean â€” deep navy with cobalt blue */
 [data-theme="ocean"] {
   --bg: #04080f;
-  --bg-surface: rgba(8, 14, 28, 0.80);
-  --bg-surface-hover: rgba(14, 24, 50, 0.92);
+  --bg-surface: rgba(4, 8, 18, 0.94);
+  --bg-surface-hover: rgba(8, 15, 35, 0.97);
   --border: rgba(77, 124, 254, 0.12);
   --border-accent: rgba(77, 124, 254, 0.32);
 
@@ -42,8 +42,8 @@
 /* Dusk â€” warm dark with amber accent */
 [data-theme="dusk"] {
   --bg: #080602;
-  --bg-surface: rgba(18, 14, 6, 0.80);
-  --bg-surface-hover: rgba(32, 24, 10, 0.92);
+  --bg-surface: rgba(9, 7, 2, 0.94);
+  --bg-surface-hover: rgba(16, 12, 5, 0.97);
   --border: rgba(251, 191, 36, 0.11);
   --border-accent: rgba(251, 191, 36, 0.26);
 

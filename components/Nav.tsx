@@ -1,13 +1,19 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
+import { createPortal } from "react-dom"
 import { config } from "@/lib/config"
 import { TbMenu2, TbX } from "react-icons/tb"
 
 export function Nav() {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
+  const [mounted, setMounted] = useState(false)
   const navRef = useRef<HTMLElement>(null)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20)
@@ -28,7 +34,61 @@ export function Nav() {
 
   const handleLinkClick = () => setMenuOpen(false)
 
+  const mobileMenu = mounted && menuOpen
+    ? createPortal(
+        <div
+          style={{
+            position: "fixed",
+            top: "68px",
+            left: 0,
+            right: 0,
+            bottom: 0,
+            zIndex: 999,
+            background: "rgba(6, 8, 16, 0.98)",
+            display: "flex",
+            flexDirection: "column",
+            padding: "2rem 1.5rem",
+            gap: "0.5rem",
+            overflowY: "auto",
+          }}
+        >
+          {config.nav.links.map((link) => (
+            <a
+              key={link.href}
+              href={link.href}
+              onClick={handleLinkClick}
+              style={{
+                padding: "1rem",
+                fontSize: "1.3rem",
+                fontFamily: "var(--font-display)",
+                fontWeight: 600,
+                color: "var(--text)",
+                borderRadius: "var(--radius)",
+                transition: "background var(--transition-fast)",
+              }}
+            >
+              {link.label}
+            </a>
+          ))}
+          <div style={{ marginTop: "1.5rem" }}>
+            <a
+              href={waUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-primary"
+              style={{ width: "100%", justifyContent: "center" }}
+              onClick={handleLinkClick}
+            >
+              {config.nav.cta.primary}
+            </a>
+          </div>
+        </div>,
+        document.body
+      )
+    : null
+
   return (
+    <>
     <header
       ref={navRef}
       style={{
@@ -160,55 +220,8 @@ export function Nav() {
         </div>
       </nav>
 
-      {/* Mobile menu */}
-      {menuOpen && (
-        <div
-          style={{
-            position: "fixed",
-            inset: "68px 0 0",
-            zIndex: 9,
-            background: "rgba(6, 8, 16, 0.97)",
-            backdropFilter: "blur(24px)",
-            WebkitBackdropFilter: "blur(24px)",
-            display: "flex",
-            flexDirection: "column",
-            padding: "2rem 1.5rem",
-            gap: "0.5rem",
-          }}
-        >
-          {config.nav.links.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              onClick={handleLinkClick}
-              style={{
-                padding: "1rem",
-                fontSize: "1.3rem",
-                fontFamily: "var(--font-display)",
-                fontWeight: 600,
-                color: "var(--text)",
-                borderRadius: "var(--radius)",
-                transition: "background var(--transition-fast)",
-              }}
-            >
-              {link.label}
-            </a>
-          ))}
-          <div style={{ marginTop: "1.5rem" }}>
-            <a
-              href={waUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn btn-primary"
-              style={{ width: "100%", justifyContent: "center" }}
-              onClick={handleLinkClick}
-            >
-              {config.nav.cta.primary}
-            </a>
-          </div>
-        </div>
-      )}
-
     </header>
+    {mobileMenu}
+    </>
   )
 }

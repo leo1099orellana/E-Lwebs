@@ -220,10 +220,10 @@ const BLOCK_CFGS = [
   { x: 90, y: 20, fontSize:  9, baseOpacity: 0.86, drift: "drift-c", driftDur: "48s", initSnippet: 2, initDelay: 16500, typeSpeed: 11 },
   // MOBILE — adapted positions for narrow screens (idx 12–15)
   // Right blocks use x:74 so ~26% of viewport width is visible (≈100px on 390px screen)
-  { x:  0, y: 18, fontSize: 8, baseOpacity: 0.58, drift: "drift-a", driftDur: "28s", initSnippet: 0, initDelay:    0, typeSpeed: 10 },
-  { x:  0, y: 58, fontSize: 8, baseOpacity: 0.52, drift: "drift-c", driftDur: "35s", initSnippet: 3, initDelay: 2200, typeSpeed: 11 },
-  { x: 74, y: 35, fontSize: 8, baseOpacity: 0.58, drift: "drift-b", driftDur: "30s", initSnippet: 1, initDelay: 1000, typeSpeed: 10 },
-  { x: 74, y: 74, fontSize: 8, baseOpacity: 0.52, drift: "drift-d", driftDur: "38s", initSnippet: 4, initDelay: 3500, typeSpeed: 12 },
+  { x:  0, y: 18, fontSize: 8, baseOpacity: 0.78, drift: "drift-a", driftDur: "28s", initSnippet: 0, initDelay:    0, typeSpeed: 10 },
+  { x:  0, y: 58, fontSize: 8, baseOpacity: 0.72, drift: "drift-c", driftDur: "35s", initSnippet: 3, initDelay: 2200, typeSpeed: 11 },
+  { x: 74, y: 35, fontSize: 8, baseOpacity: 0.78, drift: "drift-b", driftDur: "30s", initSnippet: 1, initDelay: 1000, typeSpeed: 10 },
+  { x: 74, y: 74, fontSize: 8, baseOpacity: 0.72, drift: "drift-d", driftDur: "38s", initSnippet: 4, initDelay: 3500, typeSpeed: 12 },
 ] as const
 
 const DESKTOP_BLOCK_COUNT = 12
