@@ -171,6 +171,7 @@ html {
   background-color: var(--bg);
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
+  overflow-x: hidden;
 }
 
 body {
@@ -1243,15 +1244,17 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* â”€â”€ Mobile: 2-col grid â”€â”€ */
-@media (max-width: 768px) {
+@media (max-width: 860px) {
   .process-tl-wrap    { display: none; }
   .process-mobile-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 1rem;
+    width: 100%;
+    max-width: 100%;
   }
 }
-@media (max-width: 420px) {
+@media (max-width: 480px) {
   .process-mobile-grid { grid-template-columns: 1fr; }
 }
 

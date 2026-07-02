@@ -16,7 +16,7 @@ export default function Home() {
     <>
       <CodeBackground />
       <Nav />
-      <main style={{ position: "relative", zIndex: 2 }}>
+      <main style={{ position: "relative", zIndex: 2, overflowX: "hidden" }}>
         <Hero />
         <Portfolio />
         <TechMarquee />
