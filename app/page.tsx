@@ -1,8 +1,7 @@
-import { CodeBackground } from "@/components/CodeBackground"
 import { Nav } from "@/components/Nav"
 import { Hero } from "@/components/Hero"
+import { Benefits } from "@/components/Benefits"
 import { Portfolio } from "@/components/Portfolio"
-import { TechMarquee } from "@/components/TechMarquee"
 import { Plans } from "@/components/Plans"
 import { Process } from "@/components/Process"
 import { Faq } from "@/components/Faq"
@@ -14,12 +13,11 @@ import { RevealInit } from "@/components/RevealInit"
 export default function Home() {
   return (
     <>
-      <CodeBackground />
       <Nav />
       <main style={{ position: "relative", zIndex: 2, overflowX: "hidden" }}>
         <Hero />
+        <Benefits />
         <Portfolio />
-        <TechMarquee />
         <Plans />
         <Process />
         <Faq />

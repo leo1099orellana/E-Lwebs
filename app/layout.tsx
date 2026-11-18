@@ -2,6 +2,15 @@ import type { Metadata } from "next"
 import { Space_Grotesk, Instrument_Sans } from "next/font/google"
 import "./globals.css"
 import { config } from "@/lib/config"
+import { MetaPixel } from "@/components/MetaPixel"
+
+// URL pública del sitio. Cuando tengas dominio propio, definí
+// NEXT_PUBLIC_SITE_URL=https://tudominio.com en Vercel.
+const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL ??
+  (process.env.VERCEL_PROJECT_PRODUCTION_URL
+    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+    : "http://localhost:3000")
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
@@ -20,14 +29,14 @@ const instrumentSans = Instrument_Sans({
 export const metadata: Metadata = {
   title: config.seo.title,
   description: config.seo.description,
-  metadataBase: new URL(config.brand.url),
+  metadataBase: new URL(siteUrl),
   icons: {
     icon: "/favicon.svg",
   },
   openGraph: {
     title: config.seo.title,
     description: config.seo.description,
-    url: config.brand.url,
+    url: siteUrl,
     siteName: config.brand.name,
     locale: "es_AR",
     type: "website",
@@ -50,7 +59,10 @@ export default function RootLayout({
       data-theme="marble"
       className={`${spaceGrotesk.variable} ${instrumentSans.variable}`}
     >
-      <body>{children}</body>
+      <body>
+        {children}
+        <MetaPixel />
+      </body>
     </html>
   )
 }

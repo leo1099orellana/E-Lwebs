@@ -67,8 +67,9 @@
   --border-accent: rgba(0, 194, 194, 0.40);
 
   --text: #eef4f4;
-  --text-muted: rgba(180, 225, 225, 0.72);
-  --text-subtle: rgba(120, 190, 190, 0.48);
+  /* Más brillo: el gris verdoso anterior era flojo sobre fondo casi negro */
+  --text-muted: rgba(212, 236, 236, 0.90);
+  --text-subtle: rgba(178, 214, 214, 0.76);
 
   --accent: #00C2C2;
   --accent-2: #00a0a0;
@@ -76,7 +77,11 @@
   --accent-faint: rgba(0, 194, 194, 0.08);
   --accent-soft: rgba(0, 194, 194, 0.14);
 }
-/* Marble texture â€” veins via pseudo-element on html itself */
+/* Texto oscuro sobre el turquesa: el blanco quedaba con contraste ~2:1 */
+[data-theme="marble"] .btn-primary {
+  color: #04131a;
+}
+/* Marble textureâ€” veins via pseudo-element on html itself */
 html[data-theme="marble"]::before {
   content: '';
   position: fixed;
@@ -383,18 +388,6 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* =========================================================
-   Marquee keyframes
-   ========================================================= */
-@keyframes marquee-left {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
-}
-@keyframes marquee-right {
-  from { transform: translateX(-50%); }
-  to   { transform: translateX(0); }
-}
-
-/* =========================================================
    Focus visible
    ========================================================= */
 :focus-visible {
@@ -455,18 +448,20 @@ h1, h2, h3, h4, h5, h6 {
 }
 @media (max-width: 768px) {
   .nav-links-desktop { display: none !important; }
-  .nav-hamburger     { display: flex !important; }
-  .nav-lang-btn      { display: none !important; }
-  .nav-cta           { display: none !important; }
+  .nav-cta {
+    padding: 0.6rem 1.1rem;
+    font-size: 0.875rem;
+  }
+}
+/* En pantallas táctiles no hay hover: no deslizar el texto del botón */
+@media (hover: none) {
+  .nav-cta:hover .nav-cta-default { transform: none; }
+  .nav-cta-hover { display: none; }
 }
 
 /* =========================================================
    Hero component
    ========================================================= */
-@keyframes blink {
-  0%, 100% { opacity: 1; }
-  50%       { opacity: 0; }
-}
 
 /* â”€â”€ Hero section â”€â”€ */
 .hero-section {
@@ -625,36 +620,25 @@ h1, h2, h3, h4, h5, h6 {
 .hero-headline {
   font-family: var(--font-display);
   font-weight: 800;
-  font-size: clamp(2.4rem, 5.5vw, 5rem);
+  font-size: clamp(2.1rem, 4.6vw, 4rem);
   letter-spacing: -0.03em;
-  line-height: 1.06;
+  line-height: 1.08;
   color: var(--text);
-  margin: 0;
+  max-width: 52rem;
+  margin: 0 auto 1.5rem;
+  text-wrap: balance;
 }
-.hero-headline--2 { margin-bottom: 1.75rem; }
 
-.hero-typewriter {
+.hero-highlight {
   color: var(--accent);
-  display: inline-block;
-  min-width: 4ch;
   text-shadow: 0 0 48px var(--accent-glow);
-}
-.hero-cursor {
-  display: inline-block;
-  width: 3px;
-  height: 0.82em;
-  background: var(--accent);
-  margin-left: 4px;
-  vertical-align: middle;
-  border-radius: 2px;
-  animation: blink 1s step-end infinite;
 }
 
 .hero-desc {
-  font-size: clamp(0.95rem, 1.5vw, 1.1rem);
+  font-size: clamp(1.05rem, 1.6vw, 1.25rem);
   color: var(--text-muted);
-  line-height: 1.7;
-  max-width: 44rem;
+  line-height: 1.6;
+  max-width: 40rem;
   margin: 0 auto 2rem;
 }
 
@@ -689,9 +673,43 @@ h1, h2, h3, h4, h5, h6 {
   line-height: 1.2;
 }
 .hero-stat-label {
-  font-size: 0.75rem;
+  font-size: 0.82rem;
   color: var(--text-muted);
   margin-top: 0.1rem;
+}
+
+/* Celular: sin marco de navegador ni padding extra, así los botones
+   quedan dentro de la primera pantalla */
+@media (max-width: 600px) {
+  .hero-section {
+    min-height: auto;
+    padding: 1.25rem 0 2.5rem;
+  }
+  .hero-device,
+  .hero-device:hover {
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    transform: none;
+    overflow: visible;
+  }
+  .hero-device-chrome { display: none; }
+  .hero-device-screen {
+    background: transparent;
+    overflow: visible;
+    padding: 0;
+  }
+  .hero-screen-glow { display: none; }
+  .hero-pill-wrap { margin-bottom: 1rem; }
+  .hero-headline { margin-bottom: 1rem; }
+  .hero-desc { margin-bottom: 1.5rem; }
+  .hero-ctas {
+    flex-direction: column;
+    margin-bottom: 2rem;
+  }
+  .hero-ctas .btn { width: 100%; }
+  .hero-stat { padding: 0.65rem 1rem; }
+  .hero-stat-value { font-size: 1.1rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -700,42 +718,46 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* =========================================================
-   TechMarquee component
+   Benefits component
    ========================================================= */
-.marquee-row:hover .marquee-track {
-  animation-play-state: paused;
+.benefits-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+  gap: 1rem;
 }
-.marquee-item {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.6rem;
-  padding: 0.55rem 1.2rem;
-  margin: 0 0.35rem;
-  border-radius: var(--radius-full);
+.benefit-card {
+  padding: 1.75rem 1.5rem;
+  border-radius: var(--radius-lg);
   border: 1px solid var(--border);
   background: var(--bg-surface);
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: var(--text-muted);
-  white-space: nowrap;
-  transition: border-color var(--transition-fast), background var(--transition-fast);
-  flex-shrink: 0;
+  transition: border-color var(--transition), transform var(--transition);
 }
-.marquee-item:hover {
-  border-color: rgba(255, 255, 255, 0.18);
-  background: var(--bg-surface-hover);
+.benefit-card:hover {
+  border-color: var(--border-accent);
+  transform: translateY(-2px);
+}
+.benefit-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: var(--radius);
+  background: var(--accent-faint);
+  border: 1px solid var(--border-accent);
+  color: var(--accent);
+  margin-bottom: 1.1rem;
+}
+.benefit-title {
+  font-size: 1.15rem;
+  font-weight: 700;
   color: var(--text);
+  margin-bottom: 0.5rem;
 }
-@media (prefers-reduced-motion: reduce) {
-  .marquee-track {
-    animation: none !important;
-    flex-wrap: wrap;
-    width: auto !important;
-    justify-content: center;
-  }
-  .marquee-track .marquee-item[aria-hidden="true"] {
-    display: none;
-  }
+.benefit-text {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  line-height: 1.6;
 }
 
 /* =========================================================
@@ -831,7 +853,10 @@ h1, h2, h3, h4, h5, h6 {
   bottom: 0;
   right: 0;
   width: 48%;
-  background: var(--bg-surface);
+  /* Fondo casi opaco: antes era 3.5% blanco y el texto de la captura
+     se leía a través de la tarjeta */
+  background: rgba(14, 16, 18, 0.93);
+  background: color-mix(in srgb, var(--bg) 93%, transparent);
   backdrop-filter: blur(22px);
   -webkit-backdrop-filter: blur(22px);
   border: 1px solid var(--border-accent);
@@ -928,7 +953,7 @@ h1, h2, h3, h4, h5, h6 {
   opacity: 0.9;
 }
 .pf-desc {
-  font-size: 0.82rem;
+  font-size: 0.9rem;
   color: var(--text-muted);
   line-height: 1.62;
   margin: 0;
@@ -968,10 +993,46 @@ h1, h2, h3, h4, h5, h6 {
   letter-spacing: -0.02em;
 }
 .pf-stat-lbl {
-  font-size: 0.64rem;
+  font-size: 0.72rem;
   color: var(--text-muted);
   line-height: 1.3;
 }
+.pf-stat-src {
+  font-size: 0.72rem;
+  color: var(--text-subtle);
+  margin-top: 0.45rem;
+}
+
+/* -- Testimonios -- */
+.testimonials {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+  gap: 1rem;
+  max-width: 78rem;
+  margin: 4rem auto 0;
+}
+.testimonial {
+  padding: 1.5rem;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  background: var(--bg-surface);
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+.testimonial-icon { color: var(--accent); }
+.testimonial blockquote {
+  font-size: 1rem;
+  color: var(--text);
+  line-height: 1.6;
+}
+.testimonial figcaption {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+.testimonial figcaption strong { color: var(--text); }
 
 /* -- CTA -- */
 .pf-item-btn {
@@ -1032,7 +1093,7 @@ h1, h2, h3, h4, h5, h6 {
     border-top: none;
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
-    background: var(--bg-surface-hover);
+    background: rgb(22, 24, 26);
     padding: 1.4rem 1.5rem 1.6rem;
     gap: 0.7rem;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
@@ -1270,6 +1331,183 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* =========================================================
+   Plans component
+   ========================================================= */
+.plans-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr));
+  gap: 1.5rem;
+  max-width: 52rem;
+  margin: 0 auto;
+}
+.plan-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 2.75rem 2rem 2rem;
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--border);
+  background: var(--bg-surface);
+}
+.plan-card--highlighted {
+  border-color: var(--border-accent);
+  background: linear-gradient(160deg, var(--accent-soft) 0%, var(--bg-surface) 65%);
+  box-shadow: 0 0 40px var(--accent-faint);
+}
+.plan-badge {
+  position: absolute;
+  top: -1px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: max-content;
+  max-width: 90%;
+  text-align: center;
+  background: var(--accent);
+  color: #04131a;
+  padding: 0.25rem 1rem;
+  border-radius: 0 0 var(--radius) var(--radius);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.plan-name {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.3rem;
+  margin-bottom: 0.4rem;
+  color: var(--text);
+}
+.plan-card--highlighted .plan-name { color: var(--accent); }
+.plan-desc {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+  margin-bottom: 1.5rem;
+}
+.plan-from {
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 0.2rem;
+}
+.plan-price {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(2rem, 4vw, 2.75rem);
+  letter-spacing: -0.03em;
+  line-height: 1;
+  color: var(--text);
+}
+.plan-period {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin-top: 0.4rem;
+}
+.plan-features {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  margin-bottom: 2rem;
+  flex: 1;
+}
+.plan-features li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  font-size: 0.97rem;
+  line-height: 1.45;
+  color: var(--text);
+}
+.plan-check {
+  color: var(--accent);
+  flex-shrink: 0;
+  margin-top: 0.1rem;
+}
+.plans-updated {
+  text-align: center;
+  margin-top: 1.5rem;
+  font-size: 0.88rem;
+  color: var(--text-muted);
+}
+.plans-terms {
+  max-width: 52rem;
+  margin: 2rem auto 0;
+  padding: 1.75rem;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  background: var(--bg-surface);
+}
+.plans-terms-title {
+  font-size: 1.1rem;
+  margin-bottom: 1.1rem;
+}
+.plans-terms-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
+  gap: 1.1rem 1.75rem;
+}
+.plans-term dt {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.25rem;
+}
+.plans-term dd {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  line-height: 1.55;
+}
+.plans-free {
+  max-width: 52rem;
+  margin: 1.5rem auto 0;
+  padding: 1.5rem 1.75rem;
+  border-radius: var(--radius-lg);
+  border: 1px dashed var(--border-accent);
+  background: var(--accent-faint);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem 1.25rem;
+}
+.plans-free-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: var(--radius);
+  background: var(--accent-soft);
+  color: var(--accent);
+  flex-shrink: 0;
+}
+.plans-free-body { flex: 1 1 18rem; }
+.plans-free-body h3 {
+  font-size: 1.1rem;
+  margin-bottom: 0.3rem;
+}
+.plans-free-body p {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  line-height: 1.55;
+}
+.plans-free-btn { flex-shrink: 0; }
+@media (max-width: 600px) {
+  .plans-free-btn { width: 100%; }
+}
+.plans-custom {
+  text-align: center;
+  margin-top: 2rem;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+/* =========================================================
    Contact component
    ========================================================= */
 .contact-input,
@@ -1281,7 +1519,7 @@ h1, h2, h3, h4, h5, h6 {
   padding: 0.875rem 1rem;
   color: var(--text);
   font-family: var(--font-body);
-  font-size: 0.9375rem;
+  font-size: 1rem; /* 16px: evita que iOS haga zoom al tocar el campo */
   transition: border-color var(--transition), box-shadow var(--transition);
   resize: none;
 }
@@ -1351,74 +1589,6 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* =========================================================
-   CodeBackground â€” drift keyframes
-   ========================================================= */
-@keyframes drift-a {
-  0%,  100% { transform: translate(  0px,   0px); }
-  33%        { transform: translate(  8px, -14px); }
-  66%        { transform: translate( -5px,   7px); }
-}
-@keyframes drift-b {
-  0%,  100% { transform: translate(  0px,   0px); }
-  40%        { transform: translate(-10px,   9px); }
-  80%        { transform: translate(  6px,  -5px); }
-}
-@keyframes drift-c {
-  0%,  100% { transform: translate(  0px,   0px); }
-  50%        { transform: translate( 12px,   6px); }
-}
-@keyframes drift-d {
-  0%,  100% { transform: translate(  0px,   0px); }
-  25%        { transform: translate( -7px, -11px); }
-  75%        { transform: translate(  9px,   5px); }
-}
-@keyframes drift-e {
-  0%,  100% { transform: translate(  0px,   0px); }
-  20%        { transform: translate(  6px,  10px); }
-  60%        { transform: translate(-11px,  -4px); }
-}
-
-/* =========================================================
-   CodeBackground â€” syntax token colors
-   ========================================================= */
-.tok-c { color: #2a7a58; } /* comment  â€” dark teal           */
-.tok-k { color: #5aadda; } /* keyword  â€” sky blue            */
-.tok-s { color: #e8924a; } /* string   â€” warm orange         */
-.tok-t { color: #a888f5; } /* Type/Component â€” lavender      */
-
-/* =========================================================
-   CodeBackground â€” blinking cursor
-   ========================================================= */
-@keyframes blink-cursor {
-  0%, 100% { opacity: 0.75; }
-  50%       { opacity: 0;    }
-}
-.code-cursor-blink {
-  display: inline-block;
-  color: var(--accent);
-  animation: blink-cursor 1s step-end infinite;
-}
-
-/* =========================================================
-   CodeBackground — mobile center veil
-   Replaces the radial veil with a horizontal gradient that
-   protects the center reading column (content area) while
-   leaving left and right edges transparent so code is still
-   visible in the narrow margins.
-   ========================================================= */
-@media (max-width: 860px) {
-  .code-bg-veil {
-    background: linear-gradient(
-      90deg,
-      rgba(6, 8, 16, 0.10) 0%,
-      rgba(6, 8, 16, 0.92) 9%,
-      rgba(6, 8, 16, 0.92) 86%,
-      rgba(6, 8, 16, 0.10) 100%
-    ) !important;
-  }
-}
-
-/* =========================================================
    Mobile responsiveness
    ========================================================= */
 @media (max-width: 480px) {
@@ -1455,13 +1625,6 @@ h1, h2, h3, h4, h5, h6 {
   .section-header {
     text-align: center;
   }
-
-  /* Reduce gap on marquee items for tighter fit */
-  .marquee-item {
-    padding: 0.45rem 0.9rem;
-    font-size: 0.8rem;
-    gap: 0.45rem;
-  }
 }
 
 /* =========================================================
@@ -1474,10 +1637,5 @@ h1, h2, h3, h4, h5, h6 {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
-  }
-
-  .code-cursor-blink {
-    animation: none;
-    opacity: 0;
   }
 }

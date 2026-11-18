@@ -1,19 +1,11 @@
 "use client"
 
-import { useState, useEffect, useRef } from "react"
-import { createPortal } from "react-dom"
+import { useState, useEffect } from "react"
 import { config } from "@/lib/config"
-import { TbMenu2, TbX } from "react-icons/tb"
+import { WaLink } from "@/components/WaLink"
 
 export function Nav() {
   const [scrolled, setScrolled] = useState(false)
-  const [menuOpen, setMenuOpen] = useState(false)
-  const [mounted, setMounted] = useState(false)
-  const navRef = useRef<HTMLElement>(null)
-
-  useEffect(() => {
-    setMounted(true)
-  }, [])
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20)
@@ -21,76 +13,8 @@ export function Nav() {
     return () => window.removeEventListener("scroll", onScroll)
   }, [])
 
-  useEffect(() => {
-    if (menuOpen) {
-      document.body.style.overflow = "hidden"
-    } else {
-      document.body.style.overflow = ""
-    }
-    return () => { document.body.style.overflow = "" }
-  }, [menuOpen])
-
-  const waUrl = `https://wa.me/${config.whatsapp.number}?text=${encodeURIComponent(config.whatsapp.message)}`
-
-  const handleLinkClick = () => setMenuOpen(false)
-
-  const mobileMenu = mounted && menuOpen
-    ? createPortal(
-        <div
-          style={{
-            position: "fixed",
-            top: "68px",
-            left: 0,
-            right: 0,
-            bottom: 0,
-            zIndex: 999,
-            background: "rgba(6, 8, 16, 0.98)",
-            display: "flex",
-            flexDirection: "column",
-            padding: "2rem 1.5rem",
-            gap: "0.5rem",
-            overflowY: "auto",
-          }}
-        >
-          {config.nav.links.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              onClick={handleLinkClick}
-              style={{
-                padding: "1rem",
-                fontSize: "1.3rem",
-                fontFamily: "var(--font-display)",
-                fontWeight: 600,
-                color: "var(--text)",
-                borderRadius: "var(--radius)",
-                transition: "background var(--transition-fast)",
-              }}
-            >
-              {link.label}
-            </a>
-          ))}
-          <div style={{ marginTop: "1.5rem" }}>
-            <a
-              href={waUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn btn-primary"
-              style={{ width: "100%", justifyContent: "center" }}
-              onClick={handleLinkClick}
-            >
-              {config.nav.cta.primary}
-            </a>
-          </div>
-        </div>,
-        document.body
-      )
-    : null
-
   return (
-    <>
     <header
-      ref={navRef}
       style={{
         position: "sticky",
         top: 0,
@@ -152,7 +76,7 @@ export function Nav() {
           <span style={{ color: "var(--text)" }}>Webs</span>
         </a>
 
-        {/* Desktop links */}
+        {/* Desktop links — pocos a propósito: menos fugas desde los anuncios */}
         <ul
           style={{
             display: "flex",
@@ -161,6 +85,7 @@ export function Nav() {
             listStyle: "none",
             margin: 0,
             padding: 0,
+            marginLeft: "auto",
           }}
           className="nav-links-desktop"
         >
@@ -184,44 +109,18 @@ export function Nav() {
           ))}
         </ul>
 
-        {/* Right cluster */}
-        <div style={{ display: "flex", alignItems: "center", gap: "0.6rem", flexShrink: 0 }}>
-          {/* CTA — sliding text on hover */}
-          <a
-            href={waUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="nav-cta btn btn-primary"
-            aria-label={config.nav.cta.primary}
-          >
-            <span className="nav-cta-default">{config.nav.cta.primary}</span>
-            <span className="nav-cta-hover" aria-hidden="true">
-              {config.nav.cta.hover}
-            </span>
-          </a>
-
-          {/* Hamburger */}
-          <button
-            className="nav-hamburger"
-            onClick={() => setMenuOpen((o) => !o)}
-            aria-label={menuOpen ? "Cerrar menú" : "Abrir menú"}
-            aria-expanded={menuOpen}
-            style={{
-              display: "none",
-              padding: "0.45rem",
-              border: "1px solid var(--border)",
-              borderRadius: "var(--radius)",
-              background: "var(--bg-surface)",
-              color: "var(--text)",
-            }}
-          >
-            {menuOpen ? <TbX size={20} /> : <TbMenu2 size={20} />}
-          </button>
-        </div>
+        {/* CTA — visible también en celular */}
+        <WaLink
+          origen="nav"
+          className="nav-cta btn btn-primary"
+          aria-label={config.nav.cta.primary}
+        >
+          <span className="nav-cta-default">{config.nav.cta.primary}</span>
+          <span className="nav-cta-hover" aria-hidden="true">
+            {config.nav.cta.hover}
+          </span>
+        </WaLink>
       </nav>
-
     </header>
-    {mobileMenu}
-    </>
   )
 }

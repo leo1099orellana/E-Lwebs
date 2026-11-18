@@ -1,33 +1,80 @@
+// ─────────────────────────────────────────────────────────────────────────────
+// Plazos y promesas — ÚNICA fuente de verdad.
+// Hero, planes, preguntas frecuentes y contacto leen de acá, así no se
+// contradicen. Si cambiás un plazo, cambialo solo en este bloque.
+// ─────────────────────────────────────────────────────────────────────────────
+const TIEMPOS = {
+  respuesta: "el mismo día hábil",
+  landing: "3 a 5 días hábiles",
+  ecommerce: "2 a 4 semanas",
+} as const
+
+const HORARIO = "Lun a Vie · 9 a 18 hs"
+
+export type Testimonial = {
+  quote: string
+  name: string
+  business: string
+}
+
+export type ProjectMetric = {
+  value: string
+  label: string
+}
+
+export type Project = {
+  title: string
+  tagline: string
+  category: string
+  description: string
+  url: string
+  screenshot: string
+  imgPosition: string
+  /** Solo cifras MEDIDAS. Dejalo vacío si no tenés el dato. */
+  metrics: ProjectMetric[]
+  /** De dónde sale la cifra, ej: "Meta Ads, marzo a mayo 2026 vs. mismo período 2025" */
+  metricsSource?: string
+}
+
 export const config = {
   brand: {
     name: "L&E Webs",
-    tagline: "Diseño y desarrollo web a medida",
-    description:
-      "Creamos sitios web modernos que convierten visitantes en clientes reales.",
-    url: "https://lewebs.com",
+    tagline: "Páginas web para negocios locales",
+    // Cuando tengas dominio propio, cambiá a algo como hola@tudominio.com
     email: "eylwebs@gmail.com",
     lang: "es-AR",
   },
 
+  tiempos: TIEMPOS,
+  horario: HORARIO,
+
   whatsapp: {
     number: "5491176033266",
-    message:
-      "Hola! Me gustaría pedir un presupuesto para mi proyecto web. ¿Podemos hablar?",
+    display: "+54 9 11 7603-3266",
+    // Cuerpo del mensaje precargado según el botón. Se arma así:
+    //   visita normal  → "Hola, <cuerpo> [web]"
+    //   viene de anuncio → "Hola, vi su anuncio y <cuerpo> [anuncio]"
+    // Con la etiqueta final distinguís en WhatsApp Business qué chats vienen de ads.
+    messages: {
+      default: "quiero un presupuesto para mi página web",
+      plan_landing: "me interesa el plan Landing Page",
+      plan_ecommerce: "me interesa el plan E-commerce",
+      revision_gratis: "quiero la revisión gratis de mi presencia online",
+    },
+    tagWeb: "[web]",
+    tagAd: "[anuncio]",
   },
 
   seo: {
-    title: "L&E Webs — Diseño y Desarrollo Web a Medida",
+    title: "L&E Webs — Tu página web lista en 5 días, con botón a WhatsApp",
     description:
-      "Sitios web modernos, rápidos y orientados a conversión. Diseño y desarrollo a medida para negocios que quieren crecer online.",
-    ogImage: "/og.png",
+      "Páginas web para negocios locales: se ven bien en el celular, cargan rápido, aparecen en Google y tus clientes te escriben por WhatsApp. Landing desde $100.000.",
   },
 
   nav: {
     links: [
       { label: "Proyectos", href: "#portfolio" },
       { label: "Planes", href: "#planes" },
-      { label: "Cómo trabajamos", href: "#proceso" },
-      { label: "Preguntas", href: "#faq" },
     ],
     cta: {
       primary: "Pedir presupuesto",
@@ -36,30 +83,46 @@ export const config = {
   },
 
   hero: {
-    prefix: "Más",
-    typewriterWords: ["ventas", "clientes", "consultas"],
-    suffix: "para tu negocio",
+    pill: "Diseño web para negocios locales",
+    headline: {
+      before: "Tu página web lista ",
+      highlight: "en 5 días",
+      after: ", con botón directo a WhatsApp",
+    },
     description:
-      "Diseñamos y desarrollamos sitios web a medida que convierten visitantes en clientes. Rápidos, modernos y pensados para crecer.",
+      "Para negocios locales que quieren que los encuentren y les escriban.",
+    // Texto decorativo de la barra del navegador falso (no es un link)
+    browserUrl: "tunegocio.com.ar",
     cta: "Pedir presupuesto",
     ctaSecondary: "Ver proyectos",
+    stats: [
+      { value: "Mismo día", label: "hábil te respondemos" },
+      { value: "3–5 días", label: "hábiles · landing" },
+      { value: "2–4 sem.", label: "tienda online" },
+    ],
   },
 
-  tecnologias: [
-    { name: "React", icon: "SiReact", color: "#61DAFB" },
-    { name: "Next.js", icon: "SiNextdotjs", color: "#FFFFFF" },
-    { name: "TypeScript", icon: "SiTypescript", color: "#3178C6" },
-    { name: "JavaScript", icon: "SiJavascript", color: "#F7DF1E" },
-    { name: "Tailwind CSS", icon: "SiTailwindcss", color: "#06B6D4" },
-    { name: "Node.js", icon: "SiNodedotjs", color: "#339933" },
-    { name: "HTML5", icon: "SiHtml5", color: "#E34F26" },
-    { name: "CSS3", icon: "SiCss3", color: "#1572B6" },
-    { name: "Vercel", icon: "SiVercel", color: "#FFFFFF" },
-    { name: "Git", icon: "SiGit", color: "#F05032" },
-    { name: "GitHub", icon: "SiGithub", color: "#FFFFFF" },
-    { name: "Figma", icon: "SiFigma", color: "#F24E1E" },
-    { name: "WordPress", icon: "SiWordpress", color: "#21759B" },
-    { name: "Mercado Pago", icon: "SiMercadopago", color: "#009EE3" },
+  benefits: [
+    {
+      icon: "mobile",
+      title: "Se ve bien en el celular",
+      text: "La mayoría de tus clientes te va a mirar desde el teléfono. La diseñamos pensando primero en eso.",
+    },
+    {
+      icon: "speed",
+      title: "Carga rápido",
+      text: "Liviana y sin vueltas, para que abra rápido incluso con datos móviles.",
+    },
+    {
+      icon: "google",
+      title: "Aparece en Google",
+      text: "La dejamos preparada para que te encuentren cuando buscan lo que hacés en tu zona.",
+    },
+    {
+      icon: "whatsapp",
+      title: "Te escriben por WhatsApp",
+      text: "Botón directo a tu WhatsApp: el cliente toca y ya está hablando con vos.",
+    },
   ],
 
   portfolio: {
@@ -70,11 +133,10 @@ export const config = {
         category: "Inmobiliaria",
         description:
           "Sitio institucional moderno para empresa de servicios. Diseño limpio, navegación fluida y optimizado para conversión.",
-        metric1Value: "+40%",
-        metric1Label: "consultas mensuales",
-        metric2Value: "<2s",
-        metric2Label: "tiempo de carga",
         url: "https://www.igpisani.com.ar",
+        screenshot: "/screenshots/pisani.jpg",
+        imgPosition: "top center",
+        metrics: [],
       },
       {
         title: "Blanco Construcciones",
@@ -82,55 +144,88 @@ export const config = {
         category: "Construcción",
         description:
           "Sitio institucional para empresa constructora. Presentación de obras, servicios y contacto directo.",
-        metric1Value: "+50%",
-        metric1Label: "consultas vía web",
-        metric2Value: "Activa",
-        metric2Label: "campaña de ads",
         url: "https://www.blancoconstrucciones.com.ar",
+        screenshot: "/screenshots/blanco.jpg",
+        imgPosition: "left top",
+        metrics: [],
+      },
+    ] as Project[],
+  },
+
+  // Prueba social. La sección aparece sola apenas cargues al menos uno.
+  // Pedí permiso antes de publicar nombre y negocio. Ejemplo:
+  // { quote: "Desde que tenemos la web nos escriben más por WhatsApp.", name: "Dani", business: "Lo de Dani · Gastronomía" },
+  testimonials: [] as Testimonial[],
+
+  pricing: {
+    updatedAt: "noviembre 2026",
+    paymentNote: "50% al empezar · 50% al entregar",
+    // REVISAR: son condiciones que le prometés al cliente. Ajustalas a cómo trabajás.
+    terms: [
+      {
+        title: "Forma de pago",
+        text: "50% al empezar y 50% al entregar. Sin cuotas mensuales.",
+      },
+      {
+        title: "Dominio y hosting",
+        text: "No están incluidos en el precio. Te ayudamos a contratarlos y quedan a tu nombre.",
+      },
+      {
+        title: "Cambios",
+        text: "Incluye 2 rondas de cambios sobre el diseño antes de publicar.",
+      },
+      {
+        title: "Textos y fotos",
+        text: "Los ponés vos (logo, fotos y textos). El plazo de entrega corre desde que los recibimos.",
       },
     ],
+    freeReview: {
+      title: "¿Todavía no sabés qué necesitás?",
+      text: "Revisamos tu presencia online gratis en 15 minutos: Google Maps, redes y web. Te decimos qué mejorar, sin compromiso.",
+      cta: "Quiero la revisión gratis",
+    },
   },
 
   plans: [
     {
+      id: "landing",
       name: "Landing Page",
       description:
-        "Página de presentación profesional para captar clientes y validar tu negocio.",
-      price: 150000,
+        "Página profesional para que te encuentren y te escriban. Ideal para negocios locales.",
+      price: 100000,
       currency: "ARS",
-      period: "pago único",
+      badge: "Más recomendado",
       features: [
-        "Diseño personalizado",
+        "Diseño a medida para tu negocio",
         "Hasta 5 secciones",
-        "Formulario de contacto vía WhatsApp",
-        "Optimización SEO básica",
-        "Responsive (mobile y tablet)",
-        "Entrega en 3–5 días hábiles",
-        "7 días de soporte post-lanzamiento",
+        "Botón y formulario directo a WhatsApp",
+        "Se ve bien en el celular",
+        "Preparada para aparecer en Google",
+        `Entrega en ${TIEMPOS.landing}`,
+        "7 días de soporte después de publicar",
       ],
-      cta: "Empezar",
-      highlighted: false,
+      cta: "Quiero mi landing",
+      highlighted: true,
     },
     {
+      id: "ecommerce",
       name: "E-commerce",
       description:
         "Tienda online completa con pagos, catálogo y gestión de productos.",
       price: 250000,
       currency: "ARS",
-      period: "pago único",
-      badge: "Más recomendado",
       features: [
         "Todo lo de Landing Page",
         "Catálogo de productos",
-        "Integración Mercado Pago",
+        "Cobros con Mercado Pago",
         "Carrito de compras",
-        "Panel de gestión de productos",
-        "Analytics y métricas",
-        "Entrega en ~2 semanas",
-        "30 días de soporte post-lanzamiento",
+        "Panel para cargar y editar productos",
+        "Estadísticas de visitas y ventas",
+        `Entrega en ${TIEMPOS.ecommerce}`,
+        "30 días de soporte después de publicar",
       ],
       cta: "Quiero mi tienda",
-      highlighted: true,
+      highlighted: false,
     },
   ],
 
@@ -139,32 +234,32 @@ export const config = {
       step: "01",
       title: "Escuchamos",
       description:
-        "Entendemos tu negocio, tu público y tus objetivos antes de escribir una sola línea de código.",
+        "Entendemos tu negocio, tu público y tus objetivos antes de empezar a diseñar.",
     },
     {
       step: "02",
       title: "Diseñamos",
       description:
-        "Creamos el look & feel de tu sitio, pensado para la conversión y la experiencia de usuario.",
+        "Armamos cómo se va a ver tu página, pensada para que el cliente te escriba.",
     },
     {
       step: "03",
       title: "Desarrollamos",
       description:
-        "Programamos todo con tecnología moderna: rápido, seguro y fácil de escalar.",
+        "La construimos para que sea rápida, segura y fácil de ampliar más adelante.",
     },
     {
       step: "04",
       title: "Lanzamos",
       description:
-        "Publicamos, te enseñamos a gestionarlo y quedamos disponibles para lo que necesites.",
+        "Publicamos, te enseñamos a usarla y quedamos disponibles para lo que necesites.",
     },
   ],
 
   faq: [
     {
       q: "¿Cuánto tarda en estar listo mi sitio?",
-      a: "Una landing page lleva entre 5 y 10 días hábiles. Proyectos más complejos, entre 2 y 4 semanas. Depende del plan y la complejidad.",
+      a: `Una landing page está lista en ${TIEMPOS.landing} y una tienda online en ${TIEMPOS.ecommerce}. El plazo corre desde que nos pasás textos, logo y fotos.`,
     },
     {
       q: "¿Puedo editar el contenido yo mismo?",
@@ -180,13 +275,19 @@ export const config = {
     },
     {
       q: "¿Trabajan con negocios de todo el país?",
-      a: "Sí, trabajamos 100% remoto con herramientas asíncronas. Clientes en Buenos Aires, Córdoba, Rosario y más.",
+      a: "Sí. Trabajamos 100% remoto por WhatsApp y videollamada, así que no importa dónde esté tu negocio.",
     },
     {
       q: "¿Pueden integrar Mercado Pago u otros pagos?",
       a: "Sí. Integramos Mercado Pago, transferencias bancarias y otros métodos según tu necesidad de negocio.",
     },
   ],
+
+  contact: {
+    subhead: `Contanos qué necesitás y te respondemos ${TIEMPOS.respuesta}.`,
+    intro:
+      "Preferimos WhatsApp para responderte más rápido. Si nos escribís fuera de horario, te respondemos el próximo día hábil.",
+  },
 
   cta: {
     title: "¿Listo para dar el siguiente paso?",
@@ -196,13 +297,12 @@ export const config = {
   },
 
   footer: {
-    tagline:
-      "Diseño y desarrollo web a medida para negocios que quieren crecer.",
+    tagline: "Páginas web para negocios locales que quieren que los encuentren y les escriban.",
     links: [
       { label: "Proyectos", href: "#portfolio" },
       { label: "Planes", href: "#planes" },
       { label: "Proceso", href: "#proceso" },
-      { label: "FAQ", href: "#faq" },
+      { label: "Preguntas", href: "#faq" },
     ],
     legal: "© 2026 L&E Webs. Todos los derechos reservados.",
   },

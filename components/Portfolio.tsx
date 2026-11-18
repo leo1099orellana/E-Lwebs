@@ -1,12 +1,10 @@
-"use client"
-
+import { Fragment } from "react"
 import { config } from "@/lib/config"
-import { TbArrowUpRight } from "react-icons/tb"
+import { TbArrowUpRight, TbQuote } from "react-icons/tb"
 
 export function Portfolio() {
   const { projects } = config.portfolio
-  const screenshots = ["pisani", "blanco"]
-  const imgPositions = ["top center", "left top"]
+  const { testimonials } = config
 
   return (
     <section id="portfolio" className="section">
@@ -17,10 +15,10 @@ export function Portfolio() {
             <span className="pill">Proyectos</span>
           </div>
           <h2 className="headline" data-reveal data-delay="1" style={{ marginBottom: "1rem" }}>
-            Trabajo real, resultados reales
+            Proyectos recientes
           </h2>
           <p className="subhead" data-reveal data-delay="2" style={{ maxWidth: "38rem", margin: "0 auto" }}>
-            Una muestra de lo que construimos para negocios como el tuyo.
+            Sitios que diseñamos y desarrollamos para negocios reales. Entrá y miralos funcionando.
           </p>
         </div>
 
@@ -40,10 +38,11 @@ export function Portfolio() {
                 className="pf-item-img-wrap"
               >
                 <img
-                  src={`/screenshots/${screenshots[i]}.jpg`}
-                  alt={project.title}
+                  src={project.screenshot}
+                  alt={`Captura del sitio de ${project.title}`}
                   className="pf-item-img"
-                  style={{ objectPosition: imgPositions[i] }}
+                  style={{ objectPosition: project.imgPosition }}
+                  loading="lazy"
                 />
                 <div className="pf-item-img-veil" aria-hidden="true" />
                 <div className="pf-item-img-hover" aria-hidden="true">
@@ -53,7 +52,7 @@ export function Portfolio() {
                 </div>
               </a>
 
-              {/* Floating glass card */}
+              {/* Card — fondo opaco para que no se mezcle con la captura */}
               <div className="pf-item-card">
                 <div className="pf-num-row">
                   <span className="pf-num">0{i + 1}</span>
@@ -62,17 +61,27 @@ export function Portfolio() {
                 <h3 className="pf-title">{project.title}</h3>
                 <p className="pf-tagline-sub">{project.tagline}</p>
                 <p className="pf-desc">{project.description}</p>
-                <div className="pf-stats-row">
-                  <div className="pf-stat">
-                    <span className="pf-stat-val">{project.metric1Value}</span>
-                    <span className="pf-stat-lbl">{project.metric1Label}</span>
+
+                {/* Solo se muestran cifras medidas, con su fuente */}
+                {project.metrics.length > 0 && (
+                  <div>
+                    <div className="pf-stats-row">
+                      {project.metrics.map((m, mi) => (
+                        <Fragment key={m.label}>
+                          {mi > 0 && <div className="pf-stat-sep" aria-hidden="true" />}
+                          <div className="pf-stat">
+                            <span className="pf-stat-val">{m.value}</span>
+                            <span className="pf-stat-lbl">{m.label}</span>
+                          </div>
+                        </Fragment>
+                      ))}
+                    </div>
+                    {project.metricsSource && (
+                      <p className="pf-stat-src">Fuente: {project.metricsSource}</p>
+                    )}
                   </div>
-                  <div className="pf-stat-sep" aria-hidden="true" />
-                  <div className="pf-stat">
-                    <span className="pf-stat-val">{project.metric2Value}</span>
-                    <span className="pf-stat-lbl">{project.metric2Label}</span>
-                  </div>
-                </div>
+                )}
+
                 <a
                   href={project.url}
                   target="_blank"
@@ -85,6 +94,27 @@ export function Portfolio() {
             </div>
           ))}
         </div>
+
+        {/* Testimonios — aparece solo cuando hay alguno cargado en config */}
+        {testimonials.length > 0 && (
+          <div className="testimonials">
+            {testimonials.map((t, i) => (
+              <figure
+                key={t.name}
+                className="testimonial"
+                data-reveal
+                data-delay={String((i % 3) + 1)}
+              >
+                <TbQuote size={22} className="testimonial-icon" aria-hidden="true" />
+                <blockquote>{t.quote}</blockquote>
+                <figcaption>
+                  <strong>{t.name}</strong>
+                  <span>{t.business}</span>
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+        )}
 
       </div>
     </section>

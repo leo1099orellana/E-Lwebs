@@ -18,7 +18,7 @@ export function Faq() {
             data-delay="2"
             style={{ maxWidth: "38rem", margin: "0 auto" }}
           >
-            Si tenés alguna otra, escribinos por WhatsApp. Respondemos en el día.
+            Si tenés alguna otra, escribinos por WhatsApp. Te respondemos {config.tiempos.respuesta}.
           </p>
         </div>
 
@@ -75,9 +75,9 @@ export function Faq() {
               </div>
               <p
                 style={{
-                  fontSize: "0.875rem",
+                  fontSize: "0.95rem",
                   color: "var(--text-muted)",
-                  lineHeight: 1.6,
+                  lineHeight: 1.65,
                   paddingLeft: "calc(18px + 0.75rem)",
                 }}
               >

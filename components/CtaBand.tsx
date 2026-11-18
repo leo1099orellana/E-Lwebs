@@ -1,8 +1,7 @@
 import { config } from "@/lib/config"
+import { WaLink } from "@/components/WaLink"
 
 export function CtaBand() {
-  const waUrl = `https://wa.me/${config.whatsapp.number}?text=${encodeURIComponent(config.whatsapp.message)}`
-
   return (
     <section
       style={{
@@ -75,15 +74,13 @@ export function CtaBand() {
         </p>
 
         <div data-reveal data-delay="3">
-          <a
-            href={waUrl}
-            target="_blank"
-            rel="noopener noreferrer"
+          <WaLink
+            origen="cta_final"
             className="btn btn-primary"
             style={{ padding: "1rem 2.5rem", fontSize: "1.05rem" }}
           >
             {config.cta.cta}
-          </a>
+          </WaLink>
         </div>
       </div>
     </section>

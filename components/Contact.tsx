@@ -1,48 +1,66 @@
 "use client"
 
-import { useState, FormEvent } from "react"
+import { useState, type FormEvent, type ReactNode } from "react"
 import { config } from "@/lib/config"
+import { WaLink } from "@/components/WaLink"
+import { isFromAd, trackContact, waUrl } from "@/lib/whatsapp"
 import { TbMail, TbBrandWhatsapp, TbClock, TbArrowRight } from "react-icons/tb"
 
-const INFO_ITEMS = [
-  {
-    icon: <TbBrandWhatsapp size={22} />,
-    label: "WhatsApp",
-    value: "+54 9 11 7603-3266",
-    href: `https://wa.me/${config.whatsapp.number}`,
-  },
-  {
-    icon: <TbMail size={22} />,
-    label: "Email",
-    value: config.brand.email,
-    href: `mailto:${config.brand.email}`,
-  },
-  {
-    icon: <TbClock size={22} />,
-    label: "Horario",
-    value: "Lun–Vie · 9:00–18:00",
-    href: null,
-  },
-]
+const labelStyle = {
+  display: "block",
+  fontSize: "0.85rem",
+  fontWeight: 600,
+  color: "var(--text-muted)",
+  marginBottom: "0.4rem",
+  letterSpacing: "0.02em",
+} as const
+
+function InfoBody({ label, value }: { label: string; value: string }) {
+  return (
+    <div>
+      <div
+        style={{
+          fontSize: "0.75rem",
+          fontWeight: 600,
+          letterSpacing: "0.06em",
+          textTransform: "uppercase",
+          color: "var(--text-subtle)",
+          marginBottom: "0.15rem",
+        }}
+      >
+        {label}
+      </div>
+      <div style={{ fontSize: "0.95rem", color: "var(--text)", fontWeight: 500 }}>
+        {value}
+      </div>
+    </div>
+  )
+}
+
+function InfoIcon({ children }: { children: ReactNode }) {
+  return <span style={{ color: "var(--accent)", flexShrink: 0 }}>{children}</span>
+}
 
 export function Contact() {
   const [name, setName]       = useState("")
-  const [email, setEmail]     = useState("")
+  const [rubro, setRubro]     = useState("")
   const [message, setMessage] = useState("")
 
   function handleSubmit(e: FormEvent) {
     e.preventDefault()
+    const fromAd = isFromAd()
     const text = [
-      name    ? `Hola, soy ${name}.`                        : "",
-      email   ? `Mi email es ${email}.`                     : "",
-      message ? message                                      : config.whatsapp.message,
+      fromAd ? "Hola, vi su anuncio." : "Hola!",
+      name.trim()    && `Soy ${name.trim()}.`,
+      rubro.trim()   && `Mi negocio: ${rubro.trim()}.`,
+      message.trim() || "Quiero un presupuesto para mi página web.",
+      fromAd ? config.whatsapp.tagAd : config.whatsapp.tagWeb,
     ]
       .filter(Boolean)
       .join(" ")
-    window.open(
-      `https://wa.me/${config.whatsapp.number}?text=${encodeURIComponent(text)}`,
-      "_blank"
-    )
+
+    trackContact("formulario")
+    window.open(waUrl(text), "_blank", "noopener,noreferrer")
   }
 
   return (
@@ -67,8 +85,7 @@ export function Contact() {
             data-delay="2"
             style={{ maxWidth: "36rem", margin: "0 auto" }}
           >
-            Contanos qué necesitás y te respondemos con una propuesta clara en
-            menos de 24 hs hábiles.
+            {config.contact.subhead}
           </p>
         </div>
 
@@ -88,85 +105,33 @@ export function Contact() {
           <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
             <p
               style={{
-                fontSize: "0.9rem",
+                fontSize: "0.95rem",
                 color: "var(--text-muted)",
                 lineHeight: 1.65,
                 marginBottom: "0.5rem",
               }}
             >
-              Respondemos todos los mensajes. Preferimos el WhatsApp para una
-              respuesta más ágil, pero también podés escribirnos por email.
+              {config.contact.intro}
             </p>
 
-            {INFO_ITEMS.map((item) =>
-              item.href ? (
-                <a
-                  key={item.label}
-                  href={item.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="contact-info-item"
-                >
-                  <span style={{ color: "var(--accent)", flexShrink: 0 }}>
-                    {item.icon}
-                  </span>
-                  <div>
-                    <div
-                      style={{
-                        fontSize: "0.75rem",
-                        fontWeight: 600,
-                        letterSpacing: "0.06em",
-                        textTransform: "uppercase",
-                        color: "var(--text-subtle)",
-                        marginBottom: "0.15rem",
-                      }}
-                    >
-                      {item.label}
-                    </div>
-                    <div
-                      style={{
-                        fontSize: "0.9rem",
-                        color: "var(--text)",
-                        fontWeight: 500,
-                      }}
-                    >
-                      {item.value}
-                    </div>
-                  </div>
-                </a>
-              ) : (
-                <div key={item.label} className="contact-info-item">
-                  <span style={{ color: "var(--accent)", flexShrink: 0 }}>
-                    {item.icon}
-                  </span>
-                  <div>
-                    <div
-                      style={{
-                        fontSize: "0.75rem",
-                        fontWeight: 600,
-                        letterSpacing: "0.06em",
-                        textTransform: "uppercase",
-                        color: "var(--text-subtle)",
-                        marginBottom: "0.15rem",
-                      }}
-                    >
-                      {item.label}
-                    </div>
-                    <div
-                      style={{
-                        fontSize: "0.9rem",
-                        color: "var(--text)",
-                        fontWeight: 500,
-                      }}
-                    >
-                      {item.value}
-                    </div>
-                  </div>
-                </div>
-              )
-            )}
+            <WaLink origen="contacto" className="contact-info-item">
+              <InfoIcon><TbBrandWhatsapp size={22} /></InfoIcon>
+              <InfoBody label="WhatsApp" value={config.whatsapp.display} />
+            </WaLink>
 
-            {/* Accent glow blob */}
+            <a
+              href={`mailto:${config.brand.email}`}
+              className="contact-info-item"
+            >
+              <InfoIcon><TbMail size={22} /></InfoIcon>
+              <InfoBody label="Email" value={config.brand.email} />
+            </a>
+
+            <div className="contact-info-item">
+              <InfoIcon><TbClock size={22} /></InfoIcon>
+              <InfoBody label="Horario" value={config.horario} />
+            </div>
+
             <div
               aria-hidden="true"
               style={{
@@ -179,7 +144,7 @@ export function Contact() {
             />
           </div>
 
-          {/* ── Right: form ── */}
+          {/* ── Right: form (corto a propósito: nombre, rubro y mensaje) ── */}
           <form
             onSubmit={handleSubmit}
             style={{
@@ -194,83 +159,50 @@ export function Contact() {
               WebkitBackdropFilter: "blur(16px)",
             }}
           >
-            {/* Name */}
             <div>
-              <label
-                htmlFor="c-name"
-                style={{
-                  display: "block",
-                  fontSize: "0.8rem",
-                  fontWeight: 600,
-                  color: "var(--text-muted)",
-                  marginBottom: "0.4rem",
-                  letterSpacing: "0.04em",
-                }}
-              >
-                Nombre completo
+              <label htmlFor="c-name" style={labelStyle}>
+                Tu nombre
               </label>
               <input
                 id="c-name"
                 type="text"
                 required
-                placeholder="Tu nombre"
+                autoComplete="given-name"
+                placeholder="Ej: Laura"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 className="contact-input"
               />
             </div>
 
-            {/* Email */}
             <div>
-              <label
-                htmlFor="c-email"
-                style={{
-                  display: "block",
-                  fontSize: "0.8rem",
-                  fontWeight: 600,
-                  color: "var(--text-muted)",
-                  marginBottom: "0.4rem",
-                  letterSpacing: "0.04em",
-                }}
-              >
-                Email
+              <label htmlFor="c-rubro" style={labelStyle}>
+                Rubro de tu negocio
               </label>
               <input
-                id="c-email"
-                type="email"
-                placeholder="tu@email.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                id="c-rubro"
+                type="text"
+                required
+                placeholder="Ej: peluquería, gastronomía, plomería"
+                value={rubro}
+                onChange={(e) => setRubro(e.target.value)}
                 className="contact-input"
               />
             </div>
 
-            {/* Message */}
             <div>
-              <label
-                htmlFor="c-message"
-                style={{
-                  display: "block",
-                  fontSize: "0.8rem",
-                  fontWeight: 600,
-                  color: "var(--text-muted)",
-                  marginBottom: "0.4rem",
-                  letterSpacing: "0.04em",
-                }}
-              >
-                Contanos tu proyecto
+              <label htmlFor="c-message" style={labelStyle}>
+                Mensaje <span style={{ fontWeight: 400, color: "var(--text-subtle)" }}>(opcional)</span>
               </label>
               <textarea
                 id="c-message"
-                required
-                placeholder="¿Qué tipo de sitio necesitás? ¿Tenés algo en mente?"
+                placeholder="¿Qué necesitás? ¿Ya tenés página o redes?"
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
                 className="contact-textarea"
               />
             </div>
 
-            {/* Submit */}
             <button
               type="submit"
               className="btn btn-primary"
@@ -288,12 +220,12 @@ export function Contact() {
 
             <p
               style={{
-                fontSize: "0.75rem",
+                fontSize: "0.85rem",
                 color: "var(--text-subtle)",
                 textAlign: "center",
               }}
             >
-              Al enviar abriremos WhatsApp con tu mensaje pre-cargado.
+              Se abre WhatsApp con tu mensaje listo para enviar.
             </p>
           </form>
         </div>
