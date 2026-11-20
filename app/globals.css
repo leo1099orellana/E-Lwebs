@@ -1589,6 +1589,66 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* =========================================================
+   CodeBackground (versión liviana)
+   ========================================================= */
+@keyframes drift-a {
+  0%, 100% { transform: translate(0, 0); }
+  33%      { transform: translate(8px, -14px); }
+  66%      { transform: translate(-5px, 7px); }
+}
+@keyframes drift-b {
+  0%, 100% { transform: translate(0, 0); }
+  40%      { transform: translate(-10px, 9px); }
+  80%      { transform: translate(6px, -5px); }
+}
+@keyframes drift-c {
+  0%, 100% { transform: translate(0, 0); }
+  50%      { transform: translate(12px, 6px); }
+}
+@keyframes drift-d {
+  0%, 100% { transform: translate(0, 0); }
+  25%      { transform: translate(-7px, -11px); }
+  75%      { transform: translate(9px, 5px); }
+}
+@keyframes drift-e {
+  0%, 100% { transform: translate(0, 0); }
+  20%      { transform: translate(6px, 10px); }
+  60%      { transform: translate(-11px, -4px); }
+}
+
+.tok-c { color: #2a7a58; } /* comentario */
+.tok-k { color: #5aadda; } /* palabra clave */
+.tok-s { color: #e8924a; } /* texto */
+.tok-t { color: #a888f5; } /* tipo / componente */
+
+@keyframes blink-cursor {
+  0%, 100% { opacity: 0.75; }
+  50%      { opacity: 0; }
+}
+.code-cursor-blink {
+  display: inline-block;
+  color: var(--accent);
+  animation: blink-cursor 1s step-end infinite;
+}
+
+/* Celular: el velo protege la columna central y deja ver los bordes */
+@media (max-width: 860px) {
+  .code-bg-veil {
+    background: linear-gradient(
+      90deg,
+      rgba(6, 8, 16, 0.10) 0%,
+      rgba(6, 8, 16, 0.92) 9%,
+      rgba(6, 8, 16, 0.92) 86%,
+      rgba(6, 8, 16, 0.10) 100%
+    ) !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .code-cursor-blink { animation: none; opacity: 0; }
+}
+
+/* =========================================================
    Mobile responsiveness
    ========================================================= */
 @media (max-width: 480px) {

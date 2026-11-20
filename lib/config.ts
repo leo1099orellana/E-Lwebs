@@ -149,6 +149,17 @@ export const config = {
         imgPosition: "left top",
         metrics: [],
       },
+      {
+        title: "Lo de Dani",
+        tagline: "Pedidos directo a WhatsApp",
+        category: "Gastronomía",
+        description:
+          "Landing para casa de comidas con delivery: carta completa, promos y pedidos directo por WhatsApp.",
+        url: "https://www.lodedanicomidas.com.ar",
+        screenshot: "/screenshots/lodedani.jpg",
+        imgPosition: "left top",
+        metrics: [],
+      },
     ] as Project[],
   },
 

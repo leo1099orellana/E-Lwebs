@@ -1,3 +1,4 @@
+import { CodeBackground } from "@/components/CodeBackground"
 import { Nav } from "@/components/Nav"
 import { Hero } from "@/components/Hero"
 import { Benefits } from "@/components/Benefits"
@@ -13,6 +14,7 @@ import { RevealInit } from "@/components/RevealInit"
 export default function Home() {
   return (
     <>
+      <CodeBackground />
       <Nav />
       <main style={{ position: "relative", zIndex: 2, overflowX: "hidden" }}>
         <Hero />
