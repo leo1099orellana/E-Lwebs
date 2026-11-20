@@ -36,14 +36,14 @@ export function Process() {
   return (
     <section id="proceso" className="section">
       <div className="container">
-        <div style={{ textAlign: "center", marginBottom: "3.5rem" }}>
-          <div data-reveal style={{ marginBottom: "1rem" }}>
+        <div className="section-head">
+          <div data-reveal className="section-pill">
             <span className="pill">Proceso</span>
           </div>
-          <h2 className="headline" data-reveal data-delay="1" style={{ marginBottom: "1rem" }}>
+          <h2 className="headline" data-reveal data-delay="1">
             Cómo trabajamos
           </h2>
-          <p className="subhead" data-reveal data-delay="2" style={{ maxWidth: "38rem", margin: "0 auto" }}>
+          <p className="subhead" data-reveal data-delay="2">
             Un proceso claro y transparente de principio a fin. Sin sorpresas, sin demoras.
           </p>
         </div>

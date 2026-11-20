@@ -1,5 +1,6 @@
 import { Fragment } from "react"
 import { config } from "@/lib/config"
+import { PortfolioCarousel } from "@/components/PortfolioCarousel"
 import { TbArrowUpRight, TbQuote } from "react-icons/tb"
 
 export function Portfolio() {
@@ -10,18 +11,22 @@ export function Portfolio() {
     <section id="portfolio" className="section">
       <div className="container">
 
-        <div style={{ textAlign: "center", marginBottom: "3.5rem" }}>
-          <div data-reveal style={{ marginBottom: "1rem" }}>
+        <div className="section-head">
+          <div data-reveal className="section-pill">
             <span className="pill">Proyectos</span>
           </div>
-          <h2 className="headline" data-reveal data-delay="1" style={{ marginBottom: "1rem" }}>
+          <h2 className="headline" data-reveal data-delay="1">
             Proyectos recientes
           </h2>
-          <p className="subhead" data-reveal data-delay="2" style={{ maxWidth: "38rem", margin: "0 auto" }}>
+          <p className="subhead" data-reveal data-delay="2">
             Sitios que diseñamos y desarrollamos para negocios reales. Entrá y miralos funcionando.
           </p>
         </div>
 
+        {/* Celular: carrusel deslizable con capturas de teléfono */}
+        <PortfolioCarousel projects={projects} />
+
+        {/* Escritorio: imagen panorámica + tarjeta superpuesta */}
         <div className="pf-items">
           {projects.map((project, i) => (
             <div
@@ -30,7 +35,6 @@ export function Portfolio() {
               data-reveal
               data-delay={i === 1 ? "1" : "0"}
             >
-              {/* Panoramic image */}
               <a
                 href={project.url}
                 target="_blank"
@@ -82,13 +86,14 @@ export function Portfolio() {
                   </div>
                 )}
 
+                {/* Secundario: no competir con el botón de WhatsApp */}
                 <a
                   href={project.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="btn btn-primary pf-item-btn"
+                  className="btn btn-ghost pf-item-btn"
                 >
-                  Ver proyecto <TbArrowUpRight size={15} />
+                  Ver sitio <TbArrowUpRight size={15} />
                 </a>
               </div>
             </div>

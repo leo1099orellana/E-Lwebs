@@ -1,93 +1,35 @@
 import { config } from "@/lib/config"
-import { TbMessageCircle } from "react-icons/tb"
+import { TbChevronDown } from "react-icons/tb"
 
+/** Acordeón: solo las preguntas a la vista, la respuesta se abre al tocar. */
 export function Faq() {
   return (
     <section id="faq" className="section">
       <div className="container">
-        <div style={{ textAlign: "center", marginBottom: "3rem" }}>
-          <div data-reveal style={{ marginBottom: "1rem" }}>
+        <div className="section-head">
+          <div data-reveal className="section-pill">
             <span className="pill">Preguntas frecuentes</span>
           </div>
-          <h2 className="headline" data-reveal data-delay="1" style={{ marginBottom: "1rem" }}>
+          <h2 className="headline" data-reveal data-delay="1">
             Preguntas que nos hacen seguido
           </h2>
-          <p
-            className="subhead"
-            data-reveal
-            data-delay="2"
-            style={{ maxWidth: "38rem", margin: "0 auto" }}
-          >
+          <p className="subhead" data-reveal data-delay="2">
             Si tenés alguna otra, escribinos por WhatsApp. Te respondemos {config.tiempos.respuesta}.
           </p>
         </div>
 
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 22rem), 1fr))",
-            gap: "1rem",
-            maxWidth: "56rem",
-            margin: "0 auto",
-          }}
-        >
-          {config.faq.map((item, i) => (
-            <div
-              key={i}
-              data-reveal
-              data-delay={String((i % 3) + 1)}
-              style={{
-                padding: "1.5rem",
-                borderRadius: "var(--radius-lg)",
-                border: "1px solid var(--border)",
-                background: "var(--bg-surface)",
-                transition: "border-color var(--transition), transform var(--transition)",
-              }}
-              className="faq-card"
-            >
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "flex-start",
-                  gap: "0.75rem",
-                  marginBottom: "0.75rem",
-                }}
-              >
-                <TbMessageCircle
-                  size={18}
-                  style={{
-                    color: "var(--accent)",
-                    flexShrink: 0,
-                    marginTop: "0.15rem",
-                  }}
-                />
-                <h3
-                  style={{
-                    fontFamily: "var(--font-display)",
-                    fontWeight: 600,
-                    fontSize: "0.975rem",
-                    color: "var(--text)",
-                    lineHeight: 1.4,
-                  }}
-                >
-                  {item.q}
-                </h3>
-              </div>
-              <p
-                style={{
-                  fontSize: "0.95rem",
-                  color: "var(--text-muted)",
-                  lineHeight: 1.65,
-                  paddingLeft: "calc(18px + 0.75rem)",
-                }}
-              >
-                {item.a}
-              </p>
-            </div>
+        <div className="faq-list" data-reveal data-delay="1">
+          {config.faq.map((item) => (
+            <details key={item.q} className="faq-item">
+              <summary>
+                <span>{item.q}</span>
+                <TbChevronDown size={20} className="faq-chevron" aria-hidden="true" />
+              </summary>
+              <p>{item.a}</p>
+            </details>
           ))}
         </div>
       </div>
-
     </section>
   )
 }

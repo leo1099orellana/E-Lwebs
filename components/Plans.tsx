@@ -16,19 +16,14 @@ export function Plans() {
   return (
     <section id="planes" className="section">
       <div className="container">
-        <div style={{ textAlign: "center", marginBottom: "3rem" }}>
-          <div data-reveal style={{ marginBottom: "1rem" }}>
+        <div className="section-head">
+          <div data-reveal className="section-pill">
             <span className="pill">Planes</span>
           </div>
-          <h2 className="headline" data-reveal data-delay="1" style={{ marginBottom: "1rem" }}>
+          <h2 className="headline" data-reveal data-delay="1">
             Precios claros, sin sorpresas
           </h2>
-          <p
-            className="subhead"
-            data-reveal
-            data-delay="2"
-            style={{ maxWidth: "36rem", margin: "0 auto" }}
-          >
+          <p className="subhead" data-reveal data-delay="2">
             Dos opciones pensadas para distintas etapas de tu negocio. Ambas
             incluyen diseño y desarrollo a medida.
           </p>
@@ -80,20 +75,7 @@ export function Plans() {
           Precios en pesos argentinos, actualizados a {pricing.updatedAt}.
         </p>
 
-        {/* Qué incluye y qué no */}
-        <div data-reveal className="plans-terms">
-          <h3 className="plans-terms-title">Antes de empezar, lo que tenés que saber</h3>
-          <dl className="plans-terms-grid">
-            {pricing.terms.map((term) => (
-              <div key={term.title} className="plans-term">
-                <dt>{term.title}</dt>
-                <dd>{term.text}</dd>
-              </div>
-            ))}
-          </dl>
-        </div>
-
-        {/* Primer paso sin costo, para tráfico frío */}
+        {/* Primer paso sin costo, para tráfico frío — justo después de los precios */}
         <div data-reveal className="plans-free">
           <span className="plans-free-icon" aria-hidden="true">
             <TbSearch size={22} />
@@ -109,6 +91,19 @@ export function Plans() {
           >
             {pricing.freeReview.cta}
           </WaLink>
+        </div>
+
+        {/* Qué incluye y qué no */}
+        <div data-reveal className="plans-terms">
+          <h3 className="plans-terms-title">Antes de empezar, lo que tenés que saber</h3>
+          <dl className="plans-terms-grid">
+            {pricing.terms.map((term) => (
+              <div key={term.title} className="plans-term">
+                <dt>{term.title}</dt>
+                <dd>{term.text}</dd>
+              </div>
+            ))}
+          </dl>
         </div>
 
         <p data-reveal className="plans-custom">

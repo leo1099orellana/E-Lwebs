@@ -67,42 +67,22 @@ export function Contact() {
     <section id="contacto" className="section">
       <div className="container">
         {/* Header */}
-        <div style={{ textAlign: "center", marginBottom: "3.5rem" }}>
-          <div data-reveal style={{ marginBottom: "1rem" }}>
+        <div className="section-head">
+          <div data-reveal className="section-pill">
             <span className="pill">Contacto Directo</span>
           </div>
-          <h2
-            className="headline"
-            data-reveal
-            data-delay="1"
-            style={{ marginBottom: "1rem" }}
-          >
+          <h2 className="headline" data-reveal data-delay="1">
             Hablemos sobre tu proyecto
           </h2>
-          <p
-            className="subhead"
-            data-reveal
-            data-delay="2"
-            style={{ maxWidth: "36rem", margin: "0 auto" }}
-          >
+          <p className="subhead" data-reveal data-delay="2">
             {config.contact.subhead}
           </p>
         </div>
 
-        {/* Grid */}
-        <div
-          className="contact-grid"
-          data-reveal
-          data-delay="1"
-          style={{
-            display: "grid",
-            gridTemplateColumns: "1fr 1.5fr",
-            gap: "2.5rem",
-            alignItems: "start",
-          }}
-        >
-          {/* ── Left: info ── */}
-          <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+        {/* Grid — en celular el formulario va primero (ver .contact-form en CSS) */}
+        <div className="contact-grid" data-reveal data-delay="1">
+          {/* ── Left: info (en celular se reemplaza por .contact-compact) ── */}
+          <div className="contact-info">
             <p
               style={{
                 fontSize: "0.95rem",
@@ -145,20 +125,7 @@ export function Contact() {
           </div>
 
           {/* ── Right: form (corto a propósito: nombre, rubro y mensaje) ── */}
-          <form
-            onSubmit={handleSubmit}
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              gap: "1.1rem",
-              padding: "2rem",
-              borderRadius: "var(--radius-xl)",
-              border: "1px solid var(--border)",
-              background: "var(--bg-surface)",
-              backdropFilter: "blur(16px)",
-              WebkitBackdropFilter: "blur(16px)",
-            }}
-          >
+          <form onSubmit={handleSubmit} className="contact-form">
             <div>
               <label htmlFor="c-name" style={labelStyle}>
                 Tu nombre
@@ -183,7 +150,7 @@ export function Contact() {
                 id="c-rubro"
                 type="text"
                 required
-                placeholder="Ej: peluquería, gastronomía, plomería"
+                placeholder="Ej: peluquería, gastronomía"
                 value={rubro}
                 onChange={(e) => setRubro(e.target.value)}
                 className="contact-input"
@@ -228,6 +195,13 @@ export function Contact() {
               Se abre WhatsApp con tu mensaje listo para enviar.
             </p>
           </form>
+
+          {/* Celular: datos de contacto en una línea, debajo del formulario */}
+          <p className="contact-compact">
+            <TbClock size={16} aria-hidden="true" /> {config.horario}
+            <span aria-hidden="true">·</span>
+            <a href={`mailto:${config.brand.email}`}>{config.brand.email}</a>
+          </p>
         </div>
       </div>
     </section>

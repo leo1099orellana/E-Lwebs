@@ -1,5 +1,20 @@
+import type { IconType } from "react-icons"
+import {
+  TbArrowDown,
+  TbBolt,
+  TbBrandGoogle,
+  TbBrandWhatsapp,
+  TbDeviceMobile,
+} from "react-icons/tb"
 import { config } from "@/lib/config"
 import { WaLink } from "@/components/WaLink"
+
+const BENEFIT_ICONS: Record<(typeof config.benefits)[number]["icon"], IconType> = {
+  mobile: TbDeviceMobile,
+  speed: TbBolt,
+  google: TbBrandGoogle,
+  whatsapp: TbBrandWhatsapp,
+}
 
 export function Hero() {
   const { hero } = config
@@ -20,7 +35,6 @@ export function Hero() {
         {/* ── Browser / device frame (en celular se oculta el marco) ── */}
         <div className="hero-device">
 
-          {/* Chrome top bar */}
           <div className="hero-device-chrome" aria-hidden="true">
             <div className="hero-device-dots">
               <span className="dot-red" />
@@ -36,7 +50,6 @@ export function Hero() {
             </div>
           </div>
 
-          {/* Screen */}
           <div className="hero-device-screen">
             <div className="hero-screen-glow" aria-hidden="true" />
 
@@ -56,10 +69,11 @@ export function Hero() {
 
               <div className="hero-ctas">
                 <WaLink origen="hero" className="btn btn-primary hero-btn-primary">
+                  <TbBrandWhatsapp size={20} aria-hidden="true" />
                   {hero.cta}
                 </WaLink>
-                <a href="#portfolio" className="btn btn-ghost hero-btn-ghost">
-                  {hero.ctaSecondary}
+                <a href="#portfolio" className="hero-link">
+                  {hero.ctaSecondary} <TbArrowDown size={15} aria-hidden="true" />
                 </a>
               </div>
 
@@ -71,6 +85,19 @@ export function Hero() {
                   </div>
                 ))}
               </div>
+
+              {/* Beneficios en lenguaje de cliente (antes era una sección aparte) */}
+              <ul className="hero-benefits">
+                {config.benefits.map((b) => {
+                  const Icon = BENEFIT_ICONS[b.icon]
+                  return (
+                    <li key={b.title}>
+                      <Icon size={18} aria-hidden="true" />
+                      {b.title}
+                    </li>
+                  )
+                })}
+              </ul>
             </div>
           </div>
 

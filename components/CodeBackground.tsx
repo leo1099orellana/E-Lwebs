@@ -4,10 +4,9 @@ import { useEffect, useRef, useState } from "react"
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Fondo decorativo de código — versión liviana.
-// · 6 bloques en escritorio, 4 en pantallas medianas, 2 en celular
+// · 6 bloques en escritorio, 4 en pantallas medianas, ninguno en celular
 // · un único temporizador para todos los bloques, escribe de a varias letras
 // · se pausa con la pestaña oculta y queda estático con "reducir movimiento"
-// · en celular los bloques no flotan (menos trabajo durante el scroll)
 // ─────────────────────────────────────────────────────────────────────────────
 
 const SNIPPETS: string[] = [
@@ -106,11 +105,6 @@ const DESKTOP: BlockCfg[] = [
   { x: 87, y: 80, fontSize:  9, opacity: 0.75, drift: "drift-a", driftDur: "36s", snippet: 5, delay: 12500 },
 ]
 
-// Celular: solo 2 bloques, más tenues y sin flotar
-const MOBILE: BlockCfg[] = [
-  { x:  0, y: 22, fontSize: 8, opacity: 0.6, drift: "", driftDur: "", snippet: 0, delay:    0 },
-  { x: 74, y: 62, fontSize: 8, opacity: 0.6, drift: "", driftDur: "", snippet: 1, delay: 3000 },
-]
 
 const TICK_MS     = 70    // un solo temporizador para todos los bloques
 const CHARS_TICK  = 4     // letras que se agregan por tick
@@ -170,8 +164,8 @@ function highlight(src: string): string {
 const GLYPH_CHARS = ["<", ">", "{", "}", "/", ";", "=>", "[]", "&&", "()"]
 const GLYPHS = Array.from({ length: 16 }, (_, i) => ({
   x: i < 8
-    ? +((i * 4.1 + 1.5) % 12 + 1).toFixed(1)
-    : +((i * 3.7 + 2.3) % 14 + 76).toFixed(1),
+    ? +((i * 4.1 + 1.5) % 8 + 1).toFixed(1)
+    : +((i * 3.7 + 2.3) % 8 + 90).toFixed(1),
   y: +((i * 23.3 + 7) % 90 + 4).toFixed(1),
   glyph: GLYPH_CHARS[i % GLYPH_CHARS.length],
   opacity: +(0.03 + (i % 4) * 0.008).toFixed(3),
@@ -179,15 +173,26 @@ const GLYPHS = Array.from({ length: 16 }, (_, i) => ({
 
 type Phase = "wait" | "type" | "hold" | "fade"
 
+// Ancho de .container (72rem) y su padding lateral máximo (4rem)
+const CONTENT_MAX_PX = 72 * 16
+const CONTENT_PAD_PX = 4 * 16
+const MIN_MARGIN_PX  = 140 // por debajo de esto no hay lugar para el código
+
 export function CodeBackground() {
   const [blocks, setBlocks] = useState<BlockCfg[]>([])
+  // Margen libre a cada lado del contenido: el código nunca lo invade
+  const [margin, setMargin] = useState(0)
   const wrapRefs = useRef<(HTMLDivElement | null)[]>([])
   const textRefs = useRef<(HTMLElement | null)[]>([])
 
-  // Elegir cantidad de bloques según el ancho (solo en el navegador)
+  // Elegir bloques según el espacio libre a los costados (solo en el navegador).
+  // En celular y pantallas angostas no se muestra: el código asomaba detrás de
+  // las tarjetas y parecía un error de pantalla.
   useEffect(() => {
     const w = window.innerWidth
-    setBlocks(w < 900 ? MOBILE : w < 1200 ? DESKTOP.slice(0, 4) : DESKTOP)
+    const m = Math.max(0, (w - CONTENT_MAX_PX) / 2) + Math.min(w * 0.05, CONTENT_PAD_PX)
+    setMargin(m)
+    setBlocks(m < MIN_MARGIN_PX ? [] : DESKTOP)
   }, [])
 
   useEffect(() => {
@@ -310,7 +315,14 @@ export function CodeBackground() {
           ref={(el) => { wrapRefs.current[i] = el }}
           style={{
             position: "absolute",
-            left: `${cfg.x}%`,
+            // Izquierda: pegado al borde y recortado al margen libre.
+            // Derecha: empieza justo donde termina el contenido.
+            ...(cfg.x < 50
+              ? { left: 0, width: margin - 20 }
+              : { right: 0, width: margin - 20 }),
+            overflow: "hidden",
+            maskImage: "linear-gradient(to right, black 80%, transparent)",
+            WebkitMaskImage: "linear-gradient(to right, black 80%, transparent)",
             top: `${cfg.y}%`,
             opacity: 0,
             transition: "opacity 0.9s ease",

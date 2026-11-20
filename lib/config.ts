@@ -29,11 +29,20 @@ export type Project = {
   description: string
   url: string
   screenshot: string
+  /** Captura del sitio en celular (390px de ancho) para el carrusel móvil */
+  mobileScreenshot: string
   imgPosition: string
   /** Solo cifras MEDIDAS. Dejalo vacío si no tenés el dato. */
   metrics: ProjectMetric[]
   /** De dónde sale la cifra, ej: "Meta Ads, marzo a mayo 2026 vs. mismo período 2025" */
   metricsSource?: string
+}
+
+export type About = {
+  /** Foto en /public, ej: "/equipo.jpg" */
+  photo: string
+  title: string
+  text: string
 }
 
 export const config = {
@@ -135,6 +144,7 @@ export const config = {
           "Sitio institucional moderno para empresa de servicios. Diseño limpio, navegación fluida y optimizado para conversión.",
         url: "https://www.igpisani.com.ar",
         screenshot: "/screenshots/pisani.jpg",
+        mobileScreenshot: "/screenshots/pisani-mobile.jpg",
         imgPosition: "top center",
         metrics: [],
       },
@@ -146,6 +156,7 @@ export const config = {
           "Landing para casa de comidas con delivery: carta completa, promos y pedidos directo por WhatsApp.",
         url: "https://www.lodedanicomidas.com.ar",
         screenshot: "/screenshots/lodedani.jpg",
+        mobileScreenshot: "/screenshots/lodedani-mobile.jpg",
         imgPosition: "left top",
         metrics: [],
       },
@@ -157,6 +168,7 @@ export const config = {
           "Sitio institucional para empresa constructora. Presentación de obras, servicios y contacto directo.",
         url: "https://www.blancoconstrucciones.com.ar",
         screenshot: "/screenshots/blanco.jpg",
+        mobileScreenshot: "/screenshots/blanco-mobile.jpg",
         imgPosition: "left top",
         metrics: [],
       },
@@ -167,6 +179,11 @@ export const config = {
   // Pedí permiso antes de publicar nombre y negocio. Ejemplo:
   // { quote: "Desde que tenemos la web nos escriben más por WhatsApp.", name: "Dani", business: "Lo de Dani · Gastronomía" },
   testimonials: [] as Testimonial[],
+
+  // "Quiénes somos": una cara humana genera confianza en el dueño de un negocio local.
+  // La sección aparece sola cuando completes esto. Ejemplo:
+  // about: { photo: "/equipo.jpg", title: "Somos Leo y ...", text: "Hacemos cada página nosotros, sin intermediarios. Hablás directo con quien la diseña." },
+  about: null as About | null,
 
   pricing: {
     updatedAt: "noviembre 2026",
